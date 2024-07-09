@@ -13,18 +13,10 @@ main =
 decode : List U8 -> List U8
 decode = \bytes ->
     # pad missing "="
-    paddingCount = 4 - (bytes |> List.len |> Num.rem 4)
-    padding = if paddingCount == 4 then [] else Str.repeat "=" paddingCount |> Str.toUtf8
-    list = bytes |> List.concat padding
+    list = bytes |> padMissingChars
 
     # calc final padding chars
-    last3 = list |> List.takeLast 3
-    paddingLen =
-        when last3 is
-            [61, 61, 61] -> 3
-            [_, 61, 61] -> 2
-            [_, _, 61] -> 1
-            _ -> 0
+    paddingLen = calculatePadding list
 
     chunks = list |> List.chunksOf 4
     decodedList =
@@ -47,6 +39,22 @@ decode = \bytes ->
 
     decodedList |> List.dropLast paddingLen
 
+#
+padMissingChars = \bytes ->
+    missing =
+        when bytes |> List.len |> Num.rem 4 is
+            1 -> 3
+            2 -> 2
+            3 -> 1
+            _ -> 0
+
+    bytes |> List.concat (Str.repeat "=" missing |> Str.toUtf8)
+
+calculatePadding = \bytes ->
+    when bytes |> List.takeLast 2 is
+        [61, 61] -> 2
+        [_, 61] -> 1
+        _ -> 0
 #
 
 dict =
