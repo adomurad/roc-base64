@@ -4,7 +4,25 @@ This is a basic implementation of `Base64` encoding and decoding.
 
 `Base64Url` is also available (url safe base64 encoding).
 
-Seems to work fine, but it is not battle tested.
+Seems to work fine, but it is not battle tested yet. (and it is slooooooow...)
+
+## Warning
+
+WARNING: Seems to be extremely slow when running outside of optimized builds!
+
+Decoding a PNG file (254 KB) with non-optimized build:
+
+```
+./decode  6.43s user 0.00s system 99% cpu 6.426 total
+```
+
+Running the same code with optimized build:
+
+```
+./decode  0.02s user 0.00s system 99% cpu 0.022 total
+```
+
+The same is for encoding.
 
 ## Examples
 
