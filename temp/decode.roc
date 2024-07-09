@@ -6,9 +6,9 @@ import pf.Task
 import pf.File
 
 main =
-    bytes = File.readBytes! "files/browser.png"
-    encoded = decode bytes
-    File.writeBytes! "files/browser.base64.txt" encoded
+    bytes = File.readBytes! "files/browser.base64.txt"
+    decoded = decode bytes
+    File.writeBytes! "files/decoded.png" decoded
 
 decode : List U8 -> List U8
 decode = \bytes ->
