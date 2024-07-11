@@ -69,6 +69,13 @@ expect
     actual == expected
 
 expect
+    # 10 and 13 are line feed and carriage return
+    input = [100, 71, 10, 86, 13, 122, 100, 10, 13, 65, 61, 61]
+    expected = "test" |> Str.toUtf8
+    actual = decodeUtf8 input
+    actual == expected
+
+expect
     input = "Pz8_"
     expected = "???" |> Str.toUtf8 |> Ok
     actual = tryDecodeStr input
